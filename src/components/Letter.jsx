@@ -14,9 +14,11 @@ function Letter({ group, isVisible, onClose }) {
           ))}
         </div>
         <footer className="letter-footer">
-          <a href={group?.actionLink} target="_blank" rel="noopener noreferrer" className="footer-btn">
-            Choose your drink or food
-          </a>
+          {group?.actionLink && (
+            <a href={group.actionLink} target="_blank" rel="noopener noreferrer" className="footer-btn">
+              Order a drink
+            </a>
+          )}
           <div className="footer-btn" onClick={onClose}>
             Return
           </div>

@@ -8,7 +8,7 @@ export const groups = [
       "Thank you for being my anchor through the changing tides and for the countless memories that we've built together. This chapter wouldn't have been the same without you."
     ],
     rot: -8,
-    actionLink: "https://example.com/drinks/close-friends",
+    actionLink: "https://docs.google.com/spreadsheets/d/10GrYMOhjICW9dbTbAxAEXlWRyD2Hs4MvZ8EIL1wHeig/edit?usp=sharing",
   },
   {
     id: "team",
@@ -19,7 +19,7 @@ export const groups = [
       "We built more than just code, we built a rhythm of collaboration. May your future sprints be swift and your merges always conflict-free. It was an honor to be part of this ensemble. Thank you for the technical brilliance and the human moments that made every challenge worthwhile."
     ],
     rot: 4,
-    actionLink: "https://example.com/drinks/teammates",
+    actionLink: "https://docs.google.com/spreadsheets/d/10GrYMOhjICW9dbTbAxAEXlWRyD2Hs4MvZ8EIL1wHeig/edit?usp=sharing",
   },
   {
     id: "managers",
@@ -30,7 +30,7 @@ export const groups = [
       "Guidance is a gift I never took for granted. Thank you for the trust, the challenges, and the clarity you provided. I carry your lessons with me into the next chapter as I move forward with confidence."
     ],
     rot: -2,
-    actionLink: "https://example.com/drinks/managers",
+    actionLink: "https://docs.google.com/spreadsheets/d/10GrYMOhjICW9dbTbAxAEXlWRyD2Hs4MvZ8EIL1wHeig/edit?usp=sharing",
   },
   {
     id: "sports",
@@ -41,7 +41,7 @@ export const groups = [
       "Keep pushing the boundaries, and may every game be played with heart. Our teamwork was the true victory."
     ],
     rot: 10,
-    actionLink: "https://example.com/drinks/sports",
+    actionLink: "https://docs.google.com/spreadsheets/d/10GrYMOhjICW9dbTbAxAEXlWRyD2Hs4MvZ8EIL1wHeig/edit?usp=sharing",
   },
   {
     id: "acquaintances",
@@ -52,7 +52,7 @@ export const groups = [
       "Brief intersections often leave the deepest impressions. Though our time was short, your presence added a unique color to my journey. Wishing you serendipity in all your endeavors."
     ],
     rot: -5,
-    actionLink: "https://example.com/drinks/acquaintances",
+    actionLink: "https://docs.google.com/spreadsheets/d/10GrYMOhjICW9dbTbAxAEXlWRyD2Hs4MvZ8EIL1wHeig/edit?usp=sharing",
   },
   {
     id: "clients",
@@ -63,6 +63,5 @@ export const groups = [
       "Transforming ideas into reality was a shared voyage. I appreciate the partnership and the opportunity to contribute to your goals. May your visions continue to flourish and expand as you seek new horizons."
     ],
     rot: 3,
-    actionLink: "https://example.com/drinks/clients",
   },
 ];
