@@ -242,20 +242,24 @@ body.focus-active header,
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.95);
-  backdrop-filter: blur(45px);
+  background: rgba(0, 0, 0, 0.8); /* Slightly more transparent */
+  backdrop-filter: blur(20px); /* Lower blur for smoother feel */
   z-index: 9999;
-  display: none;
+  display: flex !important; /* Ensure flex for centering */
   align-items: center;
   justify-content: center;
+  visibility: hidden;
   opacity: 0;
-  transition: opacity 0.5s ease;
+  pointer-events: none;
+  transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1), visibility 0s 0.6s;
   cursor: pointer;
 }
 
 body.letter-visible #letterOverlay {
-  display: flex;
+  visibility: visible;
   opacity: 1;
+  pointer-events: auto;
+  transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1), visibility 0s 0s;
 }
 
 .letter-content {
@@ -274,15 +278,60 @@ body.letter-visible #letterOverlay {
   flex-direction: column;
   justify-content: center;
   position: relative;
-  border-radius: 4px;
-  transform: scale(0.85);
-  transition: transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+  border-radius: 8px;
+  transform: translateY(30px) scale(0.95);
+  transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
   cursor: default;
-  overflow-y: auto; /* Handle overflow if text is very long */
+  overflow: hidden;
+  position: relative;
+}
+
+/* Texture overlay for paper feel */
+.letter-content::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url("https://www.transparenttextures.com/patterns/natural-paper.png");
+  opacity: 0.15;
+  pointer-events: none;
 }
 
 body.letter-visible .letter-content {
-  transform: scale(1);
+  transform: translateY(0) scale(1);
+}
+
+/* Staggered text animations */
+.letter-content > * {
+  opacity: 0;
+  transform: translateY(15px);
+  transition: all 0.7s ease-out;
+}
+
+body.letter-visible .letter-content > * {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+body.letter-visible .letter-content .category-name { transition-delay: 0.3s; }
+body.letter-visible .letter-content .dividerLine { transition-delay: 0.4s; }
+body.letter-visible .letter-content .motto-display { transition-delay: 0.5s; }
+body.letter-visible .letter-content .ornament { transition-delay: 0.6s; }
+body.letter-visible .letter-content .letter-body { transition-delay: 0.7s; }
+body.letter-visible .letter-content .close-hint { transition-delay: 0.9s; }
+
+.letter-body {
+  max-width: 720px;
+  margin: 40px auto 0 auto;
+  font-size: 1.4rem;
+  line-height: 1.8;
+  color: #444;
+  font-family: "Playfair Display", serif;
+  font-style: italic;
+  font-weight: 400;
+  text-align: center;
 }
 
 .category-name {

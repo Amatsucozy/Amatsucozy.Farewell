@@ -67,7 +67,7 @@ function App() {
 
   const verifyPassword = (id) => {
     const group = groups.find((g) => g.id === id);
-    if (password.toLowerCase() === group.pass) {
+    if (password.toLowerCase() === group.motto.toLowerCase()) {
       setIsLetterVisible(true);
     } else {
       setError(true);
@@ -91,10 +91,10 @@ function App() {
 
       <header className="text-center pt-24 pb-8 transition-all duration-500">
         <h1 className="text-5xl md:text-7xl font-bold italic mb-4 text-white/95">
-          The Farewell Program
+          Huy Truong - The ending chapter
         </h1>
         <p className="text-xs md:text-sm uppercase tracking-[0.7em] text-white/40">
-          A collection of shared movements
+          For those who shared the rhythm of this journey
         </p>
       </header>
 
