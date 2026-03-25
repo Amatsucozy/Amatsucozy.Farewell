@@ -1,0 +1,367 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --envelope-color: #f3e5ab;
+  --envelope-dark: #e5d394;
+  --letter-bg: #fffcf5;
+  --accent-gold: #c5a059;
+  --wood-grain: #1a120b;
+  /* Dimmer, golden glow variables */
+  --glow-bright: rgba(243, 229, 171, 0.25);
+  --glow-soft: rgba(243, 229, 171, 0.08);
+}
+
+body {
+  background-color: var(--wood-grain);
+  background-image: url("https://www.transparenttextures.com/patterns/dark-wood.png");
+  font-family: "Cormorant Garamond", serif;
+  min-height: 100vh;
+  margin: 0;
+  color: white;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Prevent scrolling when focused or letter is open */
+body.focus-active,
+body.letter-visible {
+  overflow: hidden;
+}
+
+/* Tabletop Grid */
+.tabletop {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 140px 40px;
+  padding: 100px 20px 180px 20px;
+  max-width: 1200px;
+  margin: auto;
+  width: 100%;
+  position: relative;
+}
+
+/* Selective Blur Logic */
+body.focus-active header,
+.envelope-container.is-blurred {
+  filter: blur(12px) brightness(0.25);
+  pointer-events: none;
+  transition: filter 0.6s ease;
+}
+
+/* Enhanced Smoke/Glow Effect - Golden & Dimmer */
+.smoke-effect {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 160%;
+  height: 180%;
+  background: radial-gradient(
+    circle,
+    var(--glow-bright) 0%,
+    var(--glow-soft) 45%,
+    transparent 75%
+  );
+  transform: translate(-50%, -50%);
+  filter: blur(50px);
+  pointer-events: none;
+  z-index: 1;
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  opacity: 0.4;
+}
+
+.envelope-container:hover .smoke-effect {
+  opacity: 0.8;
+  width: 180%;
+  height: 200%;
+  background: radial-gradient(
+    circle,
+    rgba(243, 229, 171, 0.3) 0%,
+    rgba(243, 229, 171, 0.1) 50%,
+    transparent 80%
+  );
+}
+
+.envelope-container {
+  position: relative;
+  height: 200px;
+  perspective: 1200px;
+  transition: perspective 0.5s;
+  z-index: 10;
+}
+
+/* Active container breaks out of the stack */
+.envelope-container.is-active {
+  perspective: none !important;
+  z-index: 2000 !important;
+}
+
+/* Main Container for Rotation Alignment */
+.envelope-group {
+  position: relative;
+  z-index: 2; /* Ensures it sits above smoke-effect (z-index 1) to capture hover */
+  transform: rotate(var(--rotation, 0deg));
+  transition: all 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.envelope-group:hover:not(.focused) {
+  transform: rotate(0deg) translateY(-30px) scale(1.08);
+}
+
+/* Centering and Enlarging Animation */
+.envelope-group.focused {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 280px;
+  height: 180px;
+  transform: translate(-50%, -50%) rotate(0deg) scale(2.2) !important;
+}
+
+/* Envelope UI Card */
+.envelope-card {
+  position: relative;
+  width: 280px;
+  height: 180px;
+  margin: auto;
+  background-color: var(--envelope-color);
+  cursor: pointer;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 5;
+  transition: all 0.4s ease;
+  overflow: hidden;
+}
+
+/* Enhanced hover glow for the card itself - Golden */
+.envelope-group:hover:not(.focused) .envelope-card {
+  box-shadow:
+    0 20px 45px rgba(0, 0, 0, 0.8),
+    0 0 30px rgba(243, 229, 171, 0.2);
+  filter: brightness(1.1);
+}
+
+.focused.revealed .envelope-card {
+  box-shadow:
+    0 40px 80px rgba(0, 0, 0, 0.9),
+    0 0 50px rgba(243, 229, 171, 0.15);
+}
+
+/* Password Reveal Panel */
+.password-panel {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--letter-bg);
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  color: #333;
+  clip-path: inset(0 0 0 100%);
+  transition: clip-path 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.focused.revealed .password-panel {
+  clip-path: inset(0 0 0 0);
+}
+
+.envelope-card::after {
+  content: "𝄞";
+  font-size: 2.5rem;
+  color: #8b0000;
+  opacity: 0.6;
+}
+
+.envelope-label {
+  position: absolute;
+  bottom: -50px;
+  width: 100%;
+  text-align: center;
+  font-family: "Playfair Display", serif;
+  font-style: italic;
+  font-size: 1.35rem;
+  color: var(--envelope-color);
+  opacity: 0.6;
+  transition: all 0.4s ease;
+  text-shadow: 0 0 10px rgba(243, 229, 171, 0.3);
+  pointer-events: none;
+  letter-spacing: 1px;
+}
+
+.envelope-group:hover .envelope-label {
+  opacity: 1;
+  transform: translateY(8px);
+  text-shadow: 0 0 18px rgba(243, 229, 171, 0.5);
+  color: #fff9e6;
+}
+
+.envelope-group.focused .envelope-label {
+  opacity: 0;
+}
+
+.input-style {
+  border-bottom: 1.5px solid var(--accent-gold);
+  width: 80%;
+  padding: 5px;
+  margin: 10px 0;
+  text-align: center;
+  font-size: 0.85rem;
+  background: transparent;
+  outline: none;
+  color: #222;
+}
+
+.gold-btn {
+  background: var(--accent-gold);
+  color: white;
+  padding: 6px 20px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  font-size: 0.6rem;
+  margin-top: 10px;
+  transition: all 0.3s;
+}
+
+.gold-btn:hover {
+  background: #b08d4a;
+  box-shadow: 0 4px 12px rgba(197, 160, 89, 0.4);
+}
+
+/* Letter View - Top Layer */
+#letterOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.95);
+  backdrop-filter: blur(45px);
+  z-index: 9999;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  cursor: pointer;
+}
+
+body.letter-visible #letterOverlay {
+  display: flex;
+  opacity: 1;
+}
+
+.letter-content {
+  background: var(--letter-bg);
+  color: #222;
+  padding: 80px 60px; /* Increased padding */
+  width: 95%; /* Wider for larger impact */
+  max-width: 850px; /* Larger max width */
+  min-height: 600px; /* Taller */
+  max-height: 85vh; /* Keep it safe for smaller viewports */
+  box-shadow:
+    0 50px 150px rgba(0, 0, 0, 1),
+    0 0 60px rgba(243, 229, 171, 0.1);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  border-radius: 4px;
+  transform: scale(0.85);
+  transition: transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+  cursor: default;
+  overflow-y: auto; /* Handle overflow if text is very long */
+}
+
+body.letter-visible .letter-content {
+  transform: scale(1);
+}
+
+.category-name {
+  color: var(--accent-gold);
+  text-transform: uppercase;
+  letter-spacing: 6px;
+  font-size: 1rem; /* Slightly larger */
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.motto-display {
+  font-family: "Playfair Display", serif;
+  font-style: italic;
+  font-size: 3.5rem; /* Much larger motto */
+  line-height: 1.15;
+  margin: 30px 0;
+  color: #1a1a1a;
+}
+
+.close-hint {
+  margin-top: 60px;
+  color: #999;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  cursor: pointer;
+  border-top: 1px solid #eee;
+  padding-top: 25px;
+  transition: color 0.3s;
+}
+
+.close-hint:hover {
+  color: var(--accent-gold);
+}
+
+/* Dark Backdrop behind focused envelope */
+#focusBackdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1500;
+  display: none;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  cursor: pointer;
+}
+
+body.focus-active #focusBackdrop {
+  display: block;
+  opacity: 1;
+}
+
+.shake {
+  animation: shake 0.4s ease-in-out;
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  75% {
+    transform: translateX(5px);
+  }
+}
+
+/* Media query for smaller mobile screens */
+@media (max-width: 640px) {
+  .motto-display {
+    font-size: 2.2rem;
+  }
+  .letter-content {
+    padding: 40px 20px;
+  }
+}
