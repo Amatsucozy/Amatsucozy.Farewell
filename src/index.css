@@ -265,25 +265,57 @@ body.letter-visible #letterOverlay {
 .letter-content {
   background: var(--letter-bg);
   color: #222;
-  padding: 80px 60px; /* Increased padding */
-  width: 95%; /* Wider for larger impact */
-  max-width: 850px; /* Larger max width */
-  min-height: 600px; /* Taller */
-  max-height: 85vh; /* Keep it safe for smaller viewports */
+  /* Keep aspect ratio constant */
+  width: min(90vw, 850px);
+  aspect-ratio: 1 / 1.414; /* Standard Portrait Proportion */
+  max-height: 85vh;
+
   box-shadow:
     0 50px 150px rgba(0, 0, 0, 1),
     0 0 60px rgba(243, 229, 171, 0.1);
   text-align: center;
-  display: flex;
+  display: flex !important;
   flex-direction: column;
-  justify-content: center;
   position: relative;
   border-radius: 8px;
   transform: translateY(30px) scale(0.95);
   transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
   cursor: default;
   overflow: hidden;
-  position: relative;
+}
+
+.letter-scroll-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 80px 60px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent-gold) transparent;
+}
+
+/* Centering Trick for Scrollable Content */
+.letter-scroll-area::before,
+.letter-scroll-area::after {
+  content: "";
+  margin-top: auto;
+}
+.letter-scroll-area::after {
+  margin-top: 0;
+  margin-bottom: auto;
+}
+
+.letter-scroll-area::-webkit-scrollbar {
+  width: 5px;
+}
+.letter-scroll-area::-webkit-scrollbar-track {
+  background: transparent;
+}
+.letter-scroll-area::-webkit-scrollbar-thumb {
+  background: var(--accent-gold);
+  border-radius: 10px;
 }
 
 /* Texture overlay for paper feel */
@@ -304,13 +336,13 @@ body.letter-visible .letter-content {
 }
 
 /* Staggered text animations */
-.letter-content > * {
+.letter-scroll-area > * {
   opacity: 0;
   transform: translateY(15px);
   transition: all 0.7s ease-out;
 }
 
-body.letter-visible .letter-content > * {
+body.letter-visible .letter-scroll-area > * {
   opacity: 1;
   transform: translateY(0);
 }
@@ -429,7 +461,7 @@ body.focus-active #focusBackdrop {
   .motto-display {
     font-size: 2.2rem;
   }
-  .letter-content {
+  .letter-scroll-area {
     padding: 40px 20px;
   }
 }
