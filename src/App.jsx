@@ -9,13 +9,13 @@ function App() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
   const [isLetterVisible, setIsLetterVisible] = useState(false);
-  
+
   const inputRef = useRef(null);
 
   // Sync body classes and handle Escape key
   useEffect(() => {
     const body = document.body;
-    
+
     if (selectedGroupId) {
       body.classList.add("focus-active");
     } else {
@@ -84,8 +84,8 @@ function App() {
 
   return (
     <>
-      <div 
-        id="focusBackdrop" 
+      <div
+        id="focusBackdrop"
         onClick={closeEverything}
       ></div>
 
@@ -98,7 +98,7 @@ function App() {
         </p>
       </header>
 
-      <main className="tabletop">
+      <main className="tabletop pt-24">
         {groups.map((group) => (
           <Envelope
             key={group.id}
